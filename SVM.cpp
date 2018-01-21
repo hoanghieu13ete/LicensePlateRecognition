@@ -10,7 +10,7 @@ using namespace cv;
 using namespace std;
 
 void setDataTraining(vector<Mat> &trainCells) {
-	string dir = "ky_tu/";
+	string dir = "trainingData/";
 	string path;
 	Mat img;
 	for (int i = 0; i <= 9; i++) {
@@ -77,7 +77,7 @@ void svmTrain(Ptr<SVM> svm, Mat &trainMat, vector<int> &trainLabels)
 {
 	Ptr<TrainData> td = TrainData::create(trainMat, ROW_SAMPLE, trainLabels);
 	svm->train(td);
-	svm->save("trained/digitsClassitify.yml");
+	svm->save("digitsClassitify.yml");
 	cout << "Training complete !" << endl;
 }
 
@@ -131,7 +131,7 @@ void training() {
 }
 
 void setDataTesing(vector<Mat> &testCells) {
-	string dir = "img_testing/test_";
+	string dir = "imgTesting/test_";
 	string path;
 	Mat img;
 	for (int i = 1; i <= 9; i++) {
