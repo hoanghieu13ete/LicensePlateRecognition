@@ -161,7 +161,7 @@ void testing() {
 	/////////
 	setMatrixTraining(testHOG, testMat);
 
-	Ptr<SVM> trainedModel = StatModel::load<SVM>("trained/digitsClassitify.yml");
+	Ptr<SVM> trainedModel = StatModel::load<SVM>("digitsClassitify.yml");
 	Mat result;
 	svmPredict(trainedModel, result, testMat);
 
