@@ -16,7 +16,7 @@ using namespace std;
 using namespace cv;
 
 
-Mat CanBangAnhMau(Mat input)
+Mat Histogram(Mat input)
 {
 	Mat hsv, his;
 	cvtColor(input, hsv, CV_BGR2HSV);
@@ -27,7 +27,7 @@ Mat CanBangAnhMau(Mat input)
 	cvtColor(hsv, his, CV_HSV2BGR);
 	return his;
 }
-Mat TangDoSang(Mat input)
+Mat Brightness(Mat input)
 {
 	Mat tangdosang;
 	tangdosang = input.clone();
@@ -44,18 +44,4 @@ Mat TangDoSang(Mat input)
 		}
 	}
 	return tangdosang;
-}
-Mat ImageLoad(Mat input)
-{
-	Mat kthuoc, output, cut1, tangdosang1, cbsang;
-	if (!input.empty())
-	{
-		tangdosang1 = TangDoSang(input);
-		resize(tangdosang1, kthuoc, cv::Size(800, 600));
-		cbsang = CanBangAnhMau(kthuoc);
-
-		cvtColor(cbsang, output, CV_BGR2GRAY);
-		blur(output, output, Size(3, 3));
-	}
-	return output;
 }
