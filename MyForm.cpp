@@ -18,7 +18,7 @@ void main()
 	vector<Mat> number = myHaarCascade.DetectNumber(myHaarCascade.DectectLicensePlate(image));
 	/*for (int i = 0; i < number.size(); i++)
 	{
-		imshow("num", number.at(i));
+		imshow("numss", number.at(i));
 		waitKey(0);
 	}*/
 	Mat result;
