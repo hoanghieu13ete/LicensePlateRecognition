@@ -166,5 +166,4 @@ void testing() {
 	svmPredict(trainedModel, result, testMat);
 
 	printResult(result);
-
 }

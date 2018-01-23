@@ -1,5 +1,4 @@
 #pragma once
-
 namespace LicensePlateRecognition {
 
 	using namespace System;
@@ -34,6 +33,12 @@ namespace LicensePlateRecognition {
 				delete components;
 			}
 		}
+	private: System::Windows::Forms::PictureBox^  pictureBox1;
+	private: System::Windows::Forms::Label^  label1;
+	private: System::Windows::Forms::Label^  label2;
+	private: System::Windows::Forms::PictureBox^  pictureBox2;
+
+	protected:
 
 	private:
 		/// <summary>
@@ -48,12 +53,68 @@ namespace LicensePlateRecognition {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->components = gcnew System::ComponentModel::Container();
-			this->Size = System::Drawing::Size(300,300);
-			this->Text = L"MyForm";
-			this->Padding = System::Windows::Forms::Padding(0);
+			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
+			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->pictureBox2 = (gcnew System::Windows::Forms::PictureBox());
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
+			this->SuspendLayout();
+			// 
+			// pictureBox1
+			// 
+			this->pictureBox1->Location = System::Drawing::Point(23, 48);
+			this->pictureBox1->Name = L"pictureBox1";
+			this->pictureBox1->Size = System::Drawing::Size(219, 207);
+			this->pictureBox1->TabIndex = 0;
+			this->pictureBox1->TabStop = false;
+			// 
+			// label1
+			// 
+			this->label1->AutoSize = true;
+			this->label1->Location = System::Drawing::Point(20, 19);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(52, 13);
+			this->label1->TabIndex = 1;
+			this->label1->Text = L"Camera 1";
+			// 
+			// label2
+			// 
+			this->label2->AutoSize = true;
+			this->label2->Location = System::Drawing::Point(331, 19);
+			this->label2->Name = L"label2";
+			this->label2->Size = System::Drawing::Size(52, 13);
+			this->label2->TabIndex = 2;
+			this->label2->Text = L"Camera 2";
+			// 
+			// pictureBox2
+			// 
+			this->pictureBox2->ImageLocation = L"";
+			this->pictureBox2->Location = System::Drawing::Point(354, 48);
+			this->pictureBox2->Name = L"pictureBox2";
+			this->pictureBox2->Size = System::Drawing::Size(236, 207);
+			this->pictureBox2->TabIndex = 3;
+			this->pictureBox2->TabStop = false;
+
+			// 
+			// MyForm
+			// 
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->ClientSize = System::Drawing::Size(642, 348);
+			this->Controls->Add(this->pictureBox2);
+			this->Controls->Add(this->label2);
+			this->Controls->Add(this->label1);
+			this->Controls->Add(this->pictureBox1);
+			this->Name = L"MyForm";
+			this->Text = L"GUI";
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
+			this->ResumeLayout(false);
+			this->PerformLayout();
+
 		}
 #pragma endregion
-	};
+
+};
 }
