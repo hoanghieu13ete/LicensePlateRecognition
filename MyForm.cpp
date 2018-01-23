@@ -2,14 +2,25 @@
 #include "HaarCascade.h"
 #include "ImageProcessing.h"
 #include<iostream>
+
 using namespace std;
 using namespace System;
 using namespace System::Windows::Forms;
 [STAThread]
 void main()
 {
-	Application::EnableVisualStyles();
-	Application::SetCompatibleTextRenderingDefault(false);
-	LicensePlateRecognition::MyForm form;
-	Application::Run(%form);
+	Mat image = imread("D:/FPT learn/image/xam1.png", CV_LOAD_IMAGE_GRAYSCALE);
+	HaarCascade myHaarCascade;
+	myHaarCascade.LoadXML();
+	imshow("detect", myHaarCascade.DectectLicensePlate(image));
+	vector<Mat> number = myHaarCascade.DetectNumber(myHaarCascade.DectectLicensePlate(image));
+	for (int i = 0; i < number.size(); i++)
+	{
+		imshow("num", number.at(i));
+		waitKey(0);
+	}
+	//Application::EnableVisualStyles();
+	//Application::SetCompatibleTextRenderingDefault(false);
+	//LicensePlateRecognition::MyForm form;
+	//Application::Run(%form);
 }

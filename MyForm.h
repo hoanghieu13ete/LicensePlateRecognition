@@ -81,7 +81,7 @@ namespace LicensePlateRecognition {
 			// label2
 			// 
 			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(331, 19);
+			this->label2->Location = System::Drawing::Point(505, 19);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(52, 13);
 			this->label2->TabIndex = 2;
@@ -90,18 +90,17 @@ namespace LicensePlateRecognition {
 			// pictureBox2
 			// 
 			this->pictureBox2->ImageLocation = L"";
-			this->pictureBox2->Location = System::Drawing::Point(354, 48);
+			this->pictureBox2->Location = System::Drawing::Point(508, 48);
 			this->pictureBox2->Name = L"pictureBox2";
 			this->pictureBox2->Size = System::Drawing::Size(236, 207);
 			this->pictureBox2->TabIndex = 3;
 			this->pictureBox2->TabStop = false;
-
 			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(642, 348);
+			this->ClientSize = System::Drawing::Size(1050, 592);
 			this->Controls->Add(this->pictureBox2);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);

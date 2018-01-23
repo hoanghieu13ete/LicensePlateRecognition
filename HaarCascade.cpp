@@ -1,9 +1,12 @@
 #include"HaarCascade.h"
 
+
 bool HaarCascade::LoadXML()
 {
 	return myDetect.load("mycascade.xml");
 }
+
+//return original image if it can't dectect License Plate.
 Mat HaarCascade::DectectLicensePlate(Mat image)
 {
 	vector<Rect> rect;
@@ -48,6 +51,9 @@ vector<Mat> HaarCascade::DetectNumber(Mat image)
 
 	findContours(binary, countours1, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
 
+	imshow("binary", binary);
+	waitKey(0);
+
 	//size of a number 20x50.
 	for (size_t i = 0; i < countours1.size(); i++)
 	{
@@ -55,7 +61,11 @@ vector<Mat> HaarCascade::DetectNumber(Mat image)
 
 		if (r.width > 10 && r.width < 30 && r.height > 40 && r.height < 60)
 		{
-			number.push_back(image(r));
+			Mat out;
+
+			// size number to recognite: 12x24
+			resize(image(r), out, Size(12, 24));
+			number.push_back(out);
 		}
 	}
 
