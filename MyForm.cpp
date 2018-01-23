@@ -1,7 +1,7 @@
 #include "MyForm.h"
 #include "HaarCascade.h"
 #include "ImageProcessing.h"
-#include <iostream>
+#include<iostream>
 
 using namespace std;
 using namespace System;
@@ -9,10 +9,7 @@ using namespace System::Windows::Forms;
 [STAThread]
 void main()
 {
-	Mat image = imread("D:/FPT learn/POSITIVE_IMAGE/a1.bmp", CV_LOAD_IMAGE_COLOR);
-	cout << "1 " << endl;
-	cvtColor(image, image, CV_BGR2GRAY);
-	resize(image, image, Size(800, 600));
+	Mat image = imread("D:/FPT learn/image/xam1.png", CV_LOAD_IMAGE_GRAYSCALE);
 	HaarCascade myHaarCascade;
 	myHaarCascade.LoadXML();
 	imshow("detect", myHaarCascade.DectectLicensePlate(image));

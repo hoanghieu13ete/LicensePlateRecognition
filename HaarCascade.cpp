@@ -51,6 +51,9 @@ vector<Mat> HaarCascade::DetectNumber(Mat image)
 
 	findContours(binary, countours1, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
 
+	imshow("binary", binary);
+	waitKey(0);
+
 	//size of a number 20x50.
 	for (size_t i = 0; i < countours1.size(); i++)
 	{
