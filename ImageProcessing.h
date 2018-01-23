@@ -15,11 +15,11 @@
 using namespace std;
 using namespace cv;
 
-CascadeClassifier myDetect;
-Mat CanBangAnhMau(Mat A)
+
+Mat CanBangAnhMau(Mat input)
 {
 	Mat hsv, his;
-	cvtColor(A, hsv, CV_BGR2HSV);
+	cvtColor(input, hsv, CV_BGR2HSV);
 	vector<Mat>hsv_channels;
 	split(hsv, hsv_channels);	// tach lam 3 kenh mau
 	equalizeHist(hsv_channels[2], hsv_channels[2]);	// can bang his kenh mau (2): value
@@ -27,50 +27,35 @@ Mat CanBangAnhMau(Mat A)
 	cvtColor(hsv, his, CV_HSV2BGR);
 	return his;
 }
-Mat TangDoSang(Mat A)
+Mat TangDoSang(Mat input)
 {
 	Mat tangdosang;
-	tangdosang = A.clone();
+	tangdosang = input.clone();
 	double alpha = 1;
 	int beta = 2.5;
-	for (int i = 0;i < A.rows;i++)
+	for (int i = 0;i < input.rows;i++)
 	{
-		for (int j = 0;j < A.cols;j++)
+		for (int j = 0;j < input.cols;j++)
 		{
 			for (int k = 0;k < 3;k++)
 			{
-				tangdosang.at<Vec3b>(i, j)[k] = saturate_cast<uchar>(alpha*(A.at<Vec3b>(i, j)[k]) + beta);
+				tangdosang.at<Vec3b>(i, j)[k] = saturate_cast<uchar>(alpha*(input.at<Vec3b>(i, j)[k]) + beta);
 			}
 		}
 	}
 	return tangdosang;
 }
-void ImageLoad()
+Mat ImageLoad(Mat input)
 {
-	if (myDetect.load("mycascade.xml"))
-		cout << "done!" << endl;
-	for (int i = 1; i <= 10; i++)
+	Mat kthuoc, output, cut1, tangdosang1, cbsang;
+	if (!input.empty())
 	{
-		string dir1 = "D:/FPT/a";
-		dir1.append(to_string(i));	
-		dir1.append(".bmp");
-		cout << dir1 << endl;
-		Mat A;
-		Mat kthuoc, gray, cut1, tangdosang1, cbsang;
-		A = imread(dir1, 1);
-		if (!A.empty())
-		{
-			tangdosang1 = TangDoSang(A);
-			resize(tangdosang1, kthuoc, cv::Size(800, 600));	
-			cbsang = CanBangAnhMau(kthuoc);
+		tangdosang1 = TangDoSang(input);
+		resize(tangdosang1, kthuoc, cv::Size(800, 600));
+		cbsang = CanBangAnhMau(kthuoc);
 
-			cvtColor(cbsang, gray, CV_BGR2GRAY);
-			blur(gray, gray, Size(3, 3));
-
-			string dir2 = "D:/FPT/XAMXAM/xam";
-			dir2.append(to_string(i));
-			dir2.append(".png");
-			imwrite(dir2, gray);
-		}
+		cvtColor(cbsang, output, CV_BGR2GRAY);
+		blur(output, output, Size(3, 3));
 	}
+	return output;
 }
