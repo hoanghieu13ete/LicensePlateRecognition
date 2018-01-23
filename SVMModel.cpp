@@ -7,9 +7,6 @@ void setDataTraining(vector<Mat> &trainCells) {
 	string dir = "dataTraining1/";
 	string path;
 	Mat img;
-	/*img = imread("a (1).jpg", CV_LOAD_IMAGE_GRAYSCALE);
-	imshow("ss", img);*/
-	//waitKey();
 	for (int i = 0; i <= 26; i++) {
 		for (int j = 1; j <= 20; j++) {
 			path = dir + to_string(i) + "_" + to_string(j) + ".jpg";
@@ -25,8 +22,6 @@ void setDataTraining(vector<Mat> &trainCells) {
 				}
 				else cout << "flie " << path << " not exist" << endl;
 			}
-			//cout << "flie " << path << " not exist" << endl;
-
 		}
 	}
 }
@@ -129,32 +124,24 @@ void printResult(Mat &testResponse) {
 void SVMModel::training()
 {
 	vector<Mat> trainCells;
-	setDataTraining(trainCells);
-	///////
-	vector<int> trainLabels;
-	setLabelTraining(trainLabels);
-	//cout << "111111111111111111" << endl;
-	////////
-	vector<vector<float> > trainHOG;
-	setHOG(trainHOG, trainCells);
-	//cout << "222222222222222222" << endl;
-	
+	setDataTraining(trainCells);    // tao matrax dau vao
+	vector<int> trainLabels;        
+	setLabelTraining(trainLabels);  // tao class cho du lieu dau vao
+	vector<vector<float> > trainHOG;		
+	setHOG(trainHOG, trainCells);		// Tao thuoc tinh cho cac ma tran dau vao
 	int descriptor_size = trainHOG[0].size();
 
-	cout << descriptor_size;
-	Mat trainMat(trainHOG.size(), descriptor_size, CV_32FC1);
-	//cout << "5555555555555555555555555";
-	////////////
-	setMatrix(trainHOG, trainMat);
-	//cout << "33333333333333333333333" << endl;
+	Mat trainMat(trainHOG.size(), descriptor_size, CV_32FC1);  // tao ma tran chua cac bien dau vao
+	setMatrix(trainHOG, trainMat);     // gop cac bien dau vao vao mot ma tran
+
 
 	//training
-	float C = 12.5, gamma = 0.5;
+	float C = 12.5, gamma = 0.5;   			//
 
 	Ptr<SVM> model = svmInit(C, gamma);
 
 	svmTrain(model, trainMat, trainLabels);
-	//Testing
+	//Validation
 	Mat testResponse;
 	svmPredict(model, testResponse, trainMat);
 	// accuracy
@@ -167,9 +154,9 @@ void SVMModel::training()
 
 void SVMModel::testing(vector<Mat> &testCells)
 {
-	//vector<Mat> testCells;
+
 	vector<vector<float> > testHOG;
-	//setDataTesing(testCells);
+
 	setHOG(testHOG, testCells);
 	//////////
 	int descriptor_size = testHOG[0].size();
