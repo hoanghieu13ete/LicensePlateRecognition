@@ -1,32 +1,33 @@
-#include <iostream>
-#include <opencv2/highgui.hpp>
-#include <opencv2/imgproc.hpp>
-#include "opencv2/objdetect.hpp"
-#include <opencv2/ml.hpp>
-#include <conio.h>
+//
 
-using namespace cv::ml;
-using namespace cv;
-using namespace std;
+#include "SVM.h"
 
 void setDataTraining(vector<Mat> &trainCells) {
-	string dir = "trainingData/";
+	string dir = "dataTraining1/";
 	string path;
 	Mat img;
-	for (int i = 0; i <= 9; i++) {
+	for (int i = 0; i <= 26; i++) {
 		for (int j = 1; j <= 20; j++) {
 			path = dir + to_string(i) + "_" + to_string(j) + ".jpg";
 			img = imread(path.c_str(), CV_LOAD_IMAGE_GRAYSCALE);
-			if (img.empty()) {
-				cout << "flie " << path << " not exist" << endl;
+			if (!img.empty()) {
+				trainCells.push_back(img);
 			}
-			else trainCells.push_back(img);
-		
+			else {
+				path = dir + to_string(i) + "_" + to_string(j) + ".png";
+				img = imread(path.c_str(), CV_LOAD_IMAGE_GRAYSCALE);
+				if (!img.empty()) {
+					trainCells.push_back(img);
+				}
+				else cout << "flie " << path << " not exist" << endl;
+			}
+			//cout << "flie " << path << " not exist" << endl;
+
 		}
 	}
 }
 void setLabelTraining(vector<int> &trainLabel) {
-	for (int i = 0; i <= 9; i++) {
+	for (int i = 0; i <= 26; i++) {
 		for (int j = 1; j <= 20; j++) {
 			trainLabel.push_back(i);
 		}
@@ -45,7 +46,7 @@ HOGDescriptor hog(
 	0,//gammal correction,
 	64,//nlevels=64
 	1);
-void setTrainHOG(vector<vector<float> > &trainHOG, vector<Mat> &trainCells) {
+void setHOG(vector<vector<float> > &trainHOG, vector<Mat> &trainCells) {
 	for (int i = 0; i < trainCells.size(); i++) {
 		vector<float> descriptors;
 		hog.compute(trainCells[i], descriptors);
@@ -53,7 +54,7 @@ void setTrainHOG(vector<vector<float> > &trainHOG, vector<Mat> &trainCells) {
 	}
 }
 
-void setMatrixTraining(vector<vector<float> > &trainHOG, Mat &trainMat) {
+void setMatrix(vector<vector<float> > &trainHOG, Mat &trainMat) {
 	int descriptor_size = trainHOG[0].size();
 	for (int i = 0; i<trainHOG.size(); i++) {
 		for (int j = 0; j<descriptor_size; j++) {
@@ -69,7 +70,6 @@ Ptr<SVM> svmInit(float C, float gamma)
 	svm->setC(C);
 	svm->setKernel(SVM::RBF);
 	svm->setType(SVM::C_SVC);
-
 	return svm;
 }
 
@@ -95,26 +95,57 @@ void SVMevaluate(Mat &testResponse, float &count, float &accuracy, vector<int> &
 	}
 	accuracy = (count / testResponse.rows) * 100;
 }
+void setDataTesing(vector<Mat> &testCells) {
+	string dir = "img_testing/test_";
+	string path;
+	Mat img;
+	for (int i = 1; i <= 14; i++) {
+		path = dir + to_string(i) + ".jpg";
+		img = imread(path.c_str(), CV_LOAD_IMAGE_GRAYSCALE);
+		if (!img.empty()) {
+			testCells.push_back(img);
+		}
+		else {
+			path = dir + to_string(i) + ".png";
+			img = imread(path.c_str(), CV_LOAD_IMAGE_GRAYSCALE);
+			if (!img.empty()) {
+				testCells.push_back(img);
+			}
+			else cout << "flie " << path << " not exist" << endl;
+		}
+	}
+}
 
+void printResult(Mat &testResponse) {
+	vector <string> result;
+	for (int i = 0; i < testResponse.rows; i++) {
+		if (testResponse.at<float>(i, 0) == 10) {
+			cout << "B ";
+			result.push_back("B");
+		}
+		else cout << testResponse.at<float>(i, 0) << " ";
+	}
+}
 
-void training() {
+void SVMModel::training()
+{
 	vector<Mat> trainCells;
 	setDataTraining(trainCells);
 	///////
 	vector<int> trainLabels;
 	setLabelTraining(trainLabels);
-	////////
+
 	vector<vector<float> > trainHOG;
-	setTrainHOG(trainHOG, trainCells);
+	setHOG(trainHOG, trainCells);
+
 
 	int descriptor_size = trainHOG[0].size();
 
-
+	cout << descriptor_size;
 	Mat trainMat(trainHOG.size(), descriptor_size, CV_32FC1);
-	////////////
-	setMatrixTraining(trainHOG, trainMat);
 
-	//training
+	setMatrix(trainHOG, trainMat);
+
 	float C = 12.5, gamma = 0.5;
 
 	Ptr<SVM> model = svmInit(C, gamma);
@@ -125,45 +156,29 @@ void training() {
 	svmPredict(model, testResponse, trainMat);
 	// accuracy
 	float count = 0;
-	float accuracy = 0;	
+	float accuracy = 0;
 	SVMevaluate(testResponse, count, accuracy, trainLabels);
 	cout << "the accuracy is :" << accuracy << endl;
 }
 
-void setDataTesing(vector<Mat> &testCells) {
-	string dir = "imgTesting/test_";
-	string path;
-	Mat img;
-	for (int i = 1; i <= 9; i++) {
-		path = dir + to_string(i) + ".jpg";
-		img = imread(path.c_str(), CV_LOAD_IMAGE_GRAYSCALE);
-		if (img.empty()) {
-			cout << "flie " << path << " not exist" << endl;
-		}
-		else testCells.push_back(img);
-	}
-}
 
-void printResult(Mat &testResponse) {
-	for (int i = 0; i < testResponse.rows; i++) {
-		cout << testResponse.at<float>(i, 0) << " ";
-	}
-}
+Mat SVMModel::testing(vector<Mat> &testCells)
+{
 
-void testing() {
-	vector<Mat> testCells;
 	vector<vector<float> > testHOG;
-	setDataTesing(testCells);
-	setTrainHOG(testHOG, testCells);
+
+	setHOG(testHOG, testCells);
 	//////////
 	int descriptor_size = testHOG[0].size();
 	Mat testMat(testHOG.size(), descriptor_size, CV_32FC1);
 	/////////
-	setMatrixTraining(testHOG, testMat);
+	setMatrix(testHOG, testMat);
 
 	Ptr<SVM> trainedModel = StatModel::load<SVM>("digitsClassitify.yml");
 	Mat result;
+
 	svmPredict(trainedModel, result, testMat);
 
 	printResult(result);
+	return result;
 }
