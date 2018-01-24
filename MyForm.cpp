@@ -11,10 +11,13 @@ using namespace System::Windows::Forms;
 [STAThread]
 void main()
 {
-	Mat image = imread("D:/Program Files (x86)/svm/traning_svm/data/xam1.png", CV_LOAD_IMAGE_GRAYSCALE);
+	Mat image = imread("D:/Program Files (x86)/svm/traning_svm/data/xam9.png", CV_LOAD_IMAGE_GRAYSCALE);
 	HaarCascade myHaarCascade;
+
 	myHaarCascade.LoadXML();
-	//imshow("detect", myHaarCascade.DectectLicensePlate(image));
+	
+	imshow("detect", myHaarCascade.DectectLicensePlate(image));
+	waitKey();
 	vector<Mat> number = myHaarCascade.DetectNumber(myHaarCascade.DectectLicensePlate(image));
 	/*for (int i = 0; i < number.size(); i++)
 	{
