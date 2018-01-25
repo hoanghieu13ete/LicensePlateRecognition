@@ -59,10 +59,11 @@ vector<Mat> HaarCascade::DetectNumber(Mat image)
 	{
 		Rect r = boundingRect(countours1[i]);
 
+
 		if (r.width > 10 && r.width < 30 && r.height > 40 && r.height < 60)
 		{
 			Mat out;
-
+			cout << r.x << " " << r.y << " " << endl;
 			// size number to recognite: 12x24
 			resize(image(r), out, Size(12, 24));
 			number.push_back(out);

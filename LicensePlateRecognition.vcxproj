@@ -105,7 +105,7 @@
     <Link>
       <AdditionalDependencies>opencv_highgui330d.lib;opencv_core330d.lib;opencv_objdetect330d.lib;opencv_imgcodecs330d.lib;opencv_ml330d.lib;opencv_features2d330d.lib;opencv_imgproc330d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>main</EntryPointSymbol>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>NotSet</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
