@@ -30,7 +30,7 @@
     <ClCompile Include="HaarCascade.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="neuralNetowrk.cpp">
+    <ClCompile Include="neuralNetwork.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

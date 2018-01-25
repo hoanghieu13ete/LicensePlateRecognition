@@ -137,7 +137,7 @@
     <ClCompile Include="HaarCascade.cpp" />
     <ClCompile Include="ImageProcessing.cpp" />
     <ClCompile Include="MyForm.cpp" />
-    <ClCompile Include="neuralNetowrk.cpp" />
+    <ClCompile Include="neuralNetwork.cpp" />
     <ClCompile Include="SVM.cpp" />
     <ClCompile Include="VideoProcessing.cpp" />
   </ItemGroup>
