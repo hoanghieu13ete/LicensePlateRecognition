@@ -24,7 +24,7 @@ Mat HaarCascade::DectectLicensePlate(Mat image)
 			Mat binary;
 			//binary to find countour
 			threshold(cut, binary, 200, 255, CV_THRESH_BINARY);
-			waitKey(0);
+			//waitKey(0);
 			findContours(binary, countours1, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
 
 			//if more than 9 object so it is a license plate.
@@ -51,8 +51,8 @@ vector<Mat> HaarCascade::DetectNumber(Mat image)
 
 	findContours(binary, countours1, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
 
-	imshow("binary", binary);
-	waitKey(0);
+	/*imshow("binary", binary);
+	waitKey(0);*/
 
 	//size of a number 20x50.
 	for (size_t i = 0; i < countours1.size(); i++)

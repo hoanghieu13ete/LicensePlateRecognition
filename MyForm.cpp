@@ -11,25 +11,17 @@ using namespace System::Windows::Forms;
 [STAThread]
 void main()
 {
-	Mat image = imread("D:/FPT learn/POSITIVE_IMAGE/a2.bmp", CV_LOAD_IMAGE_GRAYSCALE);
-	resize(image, image, Size(800, 600));
-
+	Mat image = imread("D:/FPT learn/image/xam1.png", CV_LOAD_IMAGE_GRAYSCALE);
 	HaarCascade myHaarCascade;
+
 	myHaarCascade.LoadXML();
-	vector<Mat> number = myHaarCascade.DetectNumber(myHaarCascade.DectectLicensePlate(image));
-
-	//for (int i = 0; i < number.size(); i++)
-	//{
-	//	imshow("num", number.at(i));
-	//	waitKey(0);
-	//}
-
-	SVMModel myClassify;
-	myClassify.testing(number);
 	imshow("detect", myHaarCascade.DectectLicensePlate(image));
-	waitKey(0);
-	_getch();
-
+	vector<Mat> number = myHaarCascade.DetectNumber(myHaarCascade.DectectLicensePlate(image));
+	for (int i = 0; i < number.size(); i++)
+	{
+		imshow("num", number.at(i));
+		waitKey(0);
+	}
 	//Application::EnableVisualStyles();
 	//Application::SetCompatibleTextRenderingDefault(false);
 	//LicensePlateRecognition::MyForm form;
