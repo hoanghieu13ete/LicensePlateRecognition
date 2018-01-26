@@ -15,6 +15,7 @@ using namespace std;
 
 class SVMModel {
 public:
+	
 	void training();
 	Mat testing(vector<Mat> &testCells);
 }; 

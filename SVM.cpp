@@ -1,38 +1,81 @@
 //
 
 #include "SVM.h"
+#include <fstream>
+//void setDataTraining(vector<Mat> &trainCells) {
+//	string dir = "dataTraining1/";
+//	string path;
+//	Mat img;
+//	for (int i = 0; i <= 26; i++) {
+//		for (int j = 1; j <= 20; j++) {
+//			path = dir + to_string(i) + "_" + to_string(j) + ".jpg";
+//			img = imread(path.c_str(), CV_LOAD_IMAGE_GRAYSCALE);
+//			if (!img.empty()) {
+//				trainCells.push_back(img);
+//			}
+//			else {
+//				path = dir + to_string(i) + "_" + to_string(j) + ".png";
+//				img = imread(path.c_str(), CV_LOAD_IMAGE_GRAYSCALE);
+//				if (!img.empty()) {
+//					trainCells.push_back(img);
+//				}
+//				else cout << "flie " << path << " not exist" << endl;
+//			}
+//			//cout << "flie " << path << " not exist" << endl;
+//
+//		}
+//	}
+//}
 
-void setDataTraining(vector<Mat> &trainCells) {
-	string dir = "dataTraining1/";
-	string path;
+void setDataTraining(vector<Mat> &trainCells, vector<int> &label) {
 	Mat img;
-	for (int i = 0; i <= 26; i++) {
-		for (int j = 1; j <= 20; j++) {
-			path = dir + to_string(i) + "_" + to_string(j) + ".jpg";
-			img = imread(path.c_str(), CV_LOAD_IMAGE_GRAYSCALE);
-			if (!img.empty()) {
-				trainCells.push_back(img);
-			}
-			else {
-				path = dir + to_string(i) + "_" + to_string(j) + ".png";
-				img = imread(path.c_str(), CV_LOAD_IMAGE_GRAYSCALE);
-				if (!img.empty()) {
-					trainCells.push_back(img);
-				}
-				else cout << "flie " << path << " not exist" << endl;
-			}
-			//cout << "flie " << path << " not exist" << endl;
+	string text;
+	ifstream file;
+	file.open("D:/Program Files (x86)/svm/data1/DataOrder/bg.txt");
 
-		}
+	//for (int i = 0; i <= 9; i++) {
+	//	for (int j = 1; j <= 20; j++) {
+	//		path = dir + to_string(i) + "_" + to_string(j) + ".jpg";
+	//		img = imread(path.c_str(), 1);
+	//		
+	//		if (!img.empty()) {
+	//			cvtColor(img, img, CV_BGR2GRAY);
+	//			threshold(img, img, 100, 255, THRESH_BINARY);
+	//			trainCells.push_back(img);
+	//		}
+	//		else {
+	//			path = dir + to_string(i) + "_" + to_string(j) + ".png";
+	//			img = imread(path.c_str(), 1);
+	//			if (!img.empty()) {
+	//				cvtColor(img, img, CV_BGR2GRAY);
+	//				threshold(img,img, 100, 255, THRESH_BINARY);
+	//				trainCells.push_back(img);
+	//			}
+	//			else cout << "flie " << path << " not exist" << endl;
+	//		}
+	//		//cout << "flie " << path << " not exist" << endl;
+
+	//	}
+	string full;
+	while (getline(file, text))
+	{
+		full = "D:/Program Files (x86)/svm/data1/DataOrder/" + text;
+		img = imread(full, CV_LOAD_IMAGE_GRAYSCALE);
+		trainCells.push_back(img);
+		text = text.substr(0, text.find('_'));
+		label.push_back(stoi(text));
 	}
+	file.close();
+	cout << trainCells[0].size();
 }
-void setLabelTraining(vector<int> &trainLabel) {
-	for (int i = 0; i <= 26; i++) {
-		for (int j = 1; j <= 20; j++) {
-			trainLabel.push_back(i);
-		}
-	}
-}
+
+//void setLabelTraining(vector<int> &trainLabel) {
+//	for (int i = 0; i <= 26; i++) {
+//		for (int j = 1; j <= 20; j++) {
+//			trainLabel.push_back(i);
+//		}
+//	}
+//}
 HOGDescriptor hog(
 	Size(12, 24), //winSize
 	Size(4, 8), //blocksize
@@ -197,10 +240,10 @@ void printResult(Mat &testResponse) {
 void SVMModel::training()
 {
 	vector<Mat> trainCells;
-	setDataTraining(trainCells);
-	///////
 	vector<int> trainLabels;
-	setLabelTraining(trainLabels);
+	setDataTraining(trainCells, trainLabels);
+	///////
+	//setLabelTraining(trainLabels);
 
 	vector<vector<float> > trainHOG;
 	setHOG(trainHOG, trainCells);
