@@ -11,28 +11,38 @@ using namespace System::Windows::Forms;
 [STAThread]
 void main()
 {
-	Mat image = imread("D:/FPT learn/POSITIVE_IMAGE/a6.bmp", CV_LOAD_IMAGE_GRAYSCALE);
-	resize(image, image, Size(800, 600));
+	Mat image;
 	HaarCascade myHaarCascade;
 
 	myHaarCascade.LoadXML();
-
-	Mat licensePlate = myHaarCascade.DectectLicensePlate(image);
-	if (licensePlate.cols == 150 && licensePlate.rows == 150)
+	string dir;
+	for (int loop = 0; loop < 104; loop++)
 	{
-		vector<Rect> region = myHaarCascade.DetectRegion(licensePlate);
-		vector<vector<Rect>> Position = myHaarCascade.OrderPostition(region);
-		vector<vector<Mat>> number = myHaarCascade.DetectNumber(Position, licensePlate);
-		SVMModel myClassify;
-		for (int i = 0; i < number.size(); i++)
+		dir = "D:/FPT learn/POSITIVE_IMAGE/a";
+		dir.append(to_string(loop));
+		dir.append(".bmp");
+		cout << dir << endl;
+		image = imread(dir, CV_LOAD_IMAGE_GRAYSCALE);
+		if (!image.empty())
 		{
-			cout << "Hang " << i + 1 << ": ";
-			myClassify.testing(number.at(i));
-			cout << endl;
+			resize(image, image, Size(800, 600));
+			Mat licensePlate = myHaarCascade.DectectLicensePlate(image);
+			if (licensePlate.cols == 150 && licensePlate.rows == 150)
+			{
+				vector<Rect> region = myHaarCascade.DetectRegion(licensePlate);
+				vector<vector<Rect>> Position = myHaarCascade.OrderPostition(region);
+				vector<vector<Mat>> number = myHaarCascade.DetectNumber(Position, licensePlate);
+				SVMModel myClassify;
+				for (int i = 0; i < number.size(); i++)
+				{
+					cout << "Hang " << i + 1 << ": ";
+					myClassify.testing(number.at(i));
+					cout << endl;
+				}
+			}
+			imshow("image", myHaarCascade.DectectLicensePlate(image));
+			waitKey(0);
 		}
-		imshow("image", myHaarCascade.DectectLicensePlate(image));
-		waitKey(0);
-		_getch();
 	}
 	//Application::EnableVisualStyles();
 	//Application::SetCompatibleTextRenderingDefault(false);
