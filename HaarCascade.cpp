@@ -20,19 +20,19 @@ Mat HaarCascade::DectectLicensePlate(Mat image)
 		{
 			//cut by rectangle
 			cut = image(rect.at(i));
+			resize(cut, cut, Size(150, 150));
 
 			Mat binary;
 			//binary to find countour
 			threshold(cut, binary, 200, 255, CV_THRESH_BINARY);
+
 			//waitKey(0);
 			findContours(binary, countours1, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
 
 			//if more than 9 object so it is a license plate.
 			if (countours1.size() > 9)
 			{
-				Mat out;
-				resize(cut, out, cv::Size(150, 150));
-				return out;
+				return cut;
 			}
 		}
 	}
@@ -43,7 +43,11 @@ vector<Rect> HaarCascade::DetectRegion(Mat image)
 {
 	Mat binary;
 	vector<Rect> region;
-	adaptiveThreshold(image, binary, 255, CV_ADAPTIVE_THRESH_MEAN_C, CV_THRESH_BINARY, 35, 5);
+
+	GaussianBlur(image, binary, cv::Size(0, 0), 3);
+	addWeighted(image, 1.5, binary, -0.5, 0, binary);
+
+	adaptiveThreshold(binary, binary, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, 11, 5);
 
 	vector<vector<Point>> countours1;
 
@@ -81,11 +85,11 @@ vector<vector<Rect>> HaarCascade::OrderPostition(vector<Rect> region)
 	vector<Rect> x2;
 	for (int i = 0; i < region.size(); i++)
 	{
-		if (region.at(i).y < 50)
+		if (region.at(i).y < 50 && region.at(i).x > 20 && region.at(i).x < 130)
 		{
 			x1.push_back(region.at(i));
 		}
-		else if(region.at(i).y < 100)
+		else if(region.at(i).y < 100 && region.at(i).x > 10 && region.at(i).x < 140)
 		{
 			x2.push_back(region.at(i));
 		}

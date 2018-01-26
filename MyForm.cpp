@@ -9,20 +9,31 @@ using namespace System::Windows::Forms;
 [STAThread]
 void main()
 {
-	Mat image = imread("D:/Program Files (x86)/svm/traning_svm/data/xam1.png", CV_LOAD_IMAGE_GRAYSCALE);
+	Mat image = imread("D:/FPT learn/POSITIVE_IMAGE/a6.bmp", CV_LOAD_IMAGE_GRAYSCALE);
+	resize(image, image, Size(800, 600));
 	HaarCascade myHaarCascade;
 
 	myHaarCascade.LoadXML();
-	//imshow("detect", myHaarCascade.DectectLicensePlate(image));
-	vector<Mat> number = myHaarCascade.DetectNumber(myHaarCascade.DectectLicensePlate(image));
-	for (int i = 0; i < number.size(); i++)
+
+	Mat licensePlate = myHaarCascade.DectectLicensePlate(image);
+	if (licensePlate.cols == 150 && licensePlate.rows == 150)
 	{
-		imshow("num", number.at(i));
+		vector<Rect> region = myHaarCascade.DetectRegion(licensePlate);
+		vector<vector<Rect>> Position = myHaarCascade.OrderPostition(region);
+		vector<vector<Mat>> number = myHaarCascade.DetectNumber(Position, licensePlate);
+		SVMModel myClassify;
+		for (int i = 0; i < number.size(); i++)
+		{
+			cout << "Hang " << i + 1 << ": ";
+			myClassify.testing(number.at(i));
+			cout << endl;
+		}
+		imshow("image", myHaarCascade.DectectLicensePlate(image));
 		waitKey(0);
+		_getch();
 	}
 	//Application::EnableVisualStyles();
 	//Application::SetCompatibleTextRenderingDefault(false);
 	//LicensePlateRecognition::MyForm form;
 	//Application::Run(%form);
-	_getch();
 }
