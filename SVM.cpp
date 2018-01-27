@@ -162,11 +162,11 @@ void setDataTesing(vector<Mat> &testCells) {
 void printResult(Mat &testResponse) {
 	vector <string> result;
 	for (int i = 0; i < testResponse.rows; i++) {
-		if (testResponse.at<float>(i, 0) == 10) {
+		if (testResponse.at<float>(i, 0) == 11) {
 			cout << "B ";
 			result.push_back("B");
 		}
-		else if (testResponse.at<float>(i, 0) == 11) {
+		else if (testResponse.at<float>(i, 0) == 12) {
 			cout << "C ";
 			result.push_back("C");
 		}
@@ -174,31 +174,31 @@ void printResult(Mat &testResponse) {
 			cout << "E ";
 			result.push_back("E");
 		}
-		else if (testResponse.at<float>(i, 0) == 13) {
+		else if (testResponse.at<float>(i, 0) == 14) {
 			cout << "F ";
 			result.push_back("F");
 		}
-		else if (testResponse.at<float>(i, 0) == 14) {
+		else if (testResponse.at<float>(i, 0) == 15) {
 			cout << "G ";
 			result.push_back("G");
 		}
-		else if (testResponse.at<float>(i, 0) == 15) {
+		else if (testResponse.at<float>(i, 0) == 16) {
 			cout << "H ";
 			result.push_back("H");
 		}
-		else if (testResponse.at<float>(i, 0) == 16) {
+		else if (testResponse.at<float>(i, 0) == 18) {
 			cout << "K ";
 			result.push_back("K");
 		}
-		else if (testResponse.at<float>(i, 0) == 17) {
+		else if (testResponse.at<float>(i, 0) == 19) {
 			cout << "L ";
 			result.push_back("L");
 		}
-		else if (testResponse.at<float>(i, 0) == 18) {
+		else if (testResponse.at<float>(i, 0) == 25) {
 			cout << "Z ";
 			result.push_back("Z");
 		}
-		else if (testResponse.at<float>(i, 0) == 19) {
+		else if (testResponse.at<float>(i, 0) == 20) {
 			cout << "M ";
 			result.push_back("M");
 		}
@@ -206,7 +206,7 @@ void printResult(Mat &testResponse) {
 			cout << "P ";
 			result.push_back("P");
 		}
-		else if (testResponse.at<float>(i, 0) == 21) {
+		else if (testResponse.at<float>(i, 0) == 17) {
 			cout << "R ";
 			result.push_back("R");
 		}
@@ -214,19 +214,19 @@ void printResult(Mat &testResponse) {
 			cout << "S ";
 			result.push_back("S");
 		}
-		else if (testResponse.at<float>(i, 0) == 23) {
+		else if (testResponse.at<float>(i, 0) == 21) {
 			cout << "T ";
 			result.push_back("T");
 		}
-		else if (testResponse.at<float>(i, 0) == 24) {
+		else if (testResponse.at<float>(i, 0) == 23) {
 			cout << "U ";
 			result.push_back("U");
 		}
-		else if (testResponse.at<float>(i, 0) == 25) {
+		else if (testResponse.at<float>(i, 0) == 13) {
 			cout << "V ";
 			result.push_back("V");
 		}
-		else if (testResponse.at<float>(i, 0) == 26) {
+		else if (testResponse.at<float>(i, 0) == 24) {
 			cout << "X ";
 			result.push_back("X");
 		}
