@@ -24,7 +24,7 @@ void main()
 		image = imread(dir, CV_LOAD_IMAGE_GRAYSCALE);
 		if (!image.empty())
 		{
-			resize(image, image, Size(800, 600));
+
 			Mat licensePlate = myHaarCascade.DectectLicensePlate(image);
 			if (licensePlate.cols == 150 && licensePlate.rows == 150)
 			{
@@ -39,6 +39,10 @@ void main()
 					cout << endl;
 				}
 				imshow("image", myHaarCascade.DectectLicensePlate(image));
+				//dir = "D:/FPT learn/TEST/a";
+				//dir.append(to_string(i));
+				//dir.append(".jpg");
+				//imwrite(dir, myHaarCascade.DectectLicensePlate(image));
 				waitKey(0);
 			}
 		}

@@ -49,6 +49,9 @@ vector<Rect> HaarCascade::DetectRegion(Mat image)
 
 	adaptiveThreshold(binary, binary, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, 11, 5);
 
+	imshow("binary", binary);
+	waitKey(0);
+
 	vector<vector<Point>> countours1;
 
 	findContours(binary, countours1, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
