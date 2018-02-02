@@ -15,7 +15,7 @@ void main()
 
 	myHaarCascade.LoadXML();
 	string dir;
-	for (int i = 0; i < 104; i++)
+	for (int i = 1; i < 104; i++)
 	{
 		dir = "D:/FPT learn/POSITIVE_IMAGE/a";
 		dir.append(to_string(i));

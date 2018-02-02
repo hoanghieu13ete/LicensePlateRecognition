@@ -1,8 +1,17 @@
+#include <opencv2\highgui.hpp>
+#include <opencv2\core.hpp>
+#include <opencv2\opencv.hpp>
+
+#include <iostream>
+#include <string>
+#include <stdio.h>
+#include <conio.h>
 #include "ImageProcessing.h"
 
-
-// can bang anh mau
-Mat Histogram(Mat input)
+using namespace std;
+using namespace cv;
+//	can bang mau
+Mat Histogram(Mat &input)
 {
 	Mat hsv, his;
 	cvtColor(input, hsv, CV_BGR2HSV);
@@ -14,7 +23,7 @@ Mat Histogram(Mat input)
 	return his;
 }
 // tang giam do sang
-Mat Brightness(Mat input)
+Mat Brightness(Mat &input)
 {
 	Mat tangdosang;
 	tangdosang = input.clone();
@@ -26,44 +35,23 @@ Mat Brightness(Mat input)
 	input.convertTo(tangdosang, CV_8U, alpha, beta);
 	return tangdosang;
 }
-// cat anh
-Mat CutImg(Mat input)
+// ham xu li anh dau vao
+Mat ProcessImgTest::ProcessImg(Mat input)	// cho anh duoc can bang do sang + mau
 {
-	cout << "Nhap vtri1, vtri2, chieu dai va chieu rong. \n";
-	int vtri1, vtri2, chieurong, chieudai; // dua vao vtri va kich thuoc can cat
-										   /*cin >> vtri1 >> vtri2 >> chieurong >> chieudai;
-										   cout << endl;*/
-	Rect r = Rect(vtri1, vtri2, chieurong, chieudai);
-	rectangle(input, r, CV_RGB(255, 0, 255), 5, 4); // ve hinh chu nhat vao anh 
-	Mat a(input, r);	// cat phan hinh chu nhat da ve
-	return a;
-}
-// Xoay anh
-Mat Rotate(Mat input)
-{
-	double angle = 90;
-	Point2f center(input.cols / 2., input.rows / 2.);
-	Mat r = cv::getRotationMatrix2D(center, angle, 1.0);
-	Mat dst;
-	warpAffine(input, dst, r, input.size());
-	return dst;
-}
-Mat ProcessImgTest::ProcessImg(Mat input)
-{
-	Mat kthuoc, output, cat, tangdosang1, cbsang;
+	Mat kthuoc, xam, cat, tangdosang1, cbsang, output;
+	int mau;
 	if (!input.empty())
 	{
 		tangdosang1 = Brightness(input);
-		resize(tangdosang1, kthuoc, cv::Size(800, 600));
-		cbsang = Histogram(kthuoc);
-
-		cvtColor(cbsang, output, CV_BGR2GRAY);
-		blur(output, output, Size(3, 3));
+		//resize(tangdosang1, kthuoc, cv::Size(800, 600));
+		cbsang = Histogram(tangdosang1);
+		output = cbsang;
 	}
 	return output;
 }
-//	lam net anh
-Mat Sharp(Mat input)
+
+// chuyen doi mau cua anh, sang thanh toi va nguoc lai
+Mat InvertImg(Mat &input)
 {
 	Mat output = input;
 	//
@@ -76,34 +64,37 @@ Mat Sharp(Mat input)
 	}
 	return output;
 }
-//	xac dinh mau
+//	xac dinh mau, anh vao la anh ra co nen trang chu den
 Mat ProcessImgTest::Color(Mat input)
 {
 	Mat hsv, xanh, ddo1, ddo2, output;
 	cvtColor(input, hsv, CV_BGR2HSV);
 	// detect mau xanh
-	inRange(hsv, Scalar(50, 10, 80), Scalar(170, 250, 200), xanh);
+	inRange(hsv, Scalar(20, 10, 80), Scalar(170, 250, 200), xanh);
 	// detect mau do
 	inRange(hsv, Scalar(0, 70, 50), Scalar(10, 255, 255), ddo1);
-	inRange(hsv, Scalar(170, 70, 50), Scalar(180, 255, 255), ddo2);
+	inRange(hsv, Scalar(110, 50, 50), Scalar(180, 255, 255), ddo2);
 	Mat1b ddo = ddo1 | ddo2;
 
 	float mdo, mxanh;
 	// dem diem trang cua anh mau do, mau xanh
 	mdo = countNonZero(ddo);
+	cout << mdo << endl;
 	mxanh = countNonZero(xanh);
+	cout << mxanh << endl;
 
 	// dem tong so pixel cua anh 
 	float pixel = hsv.rows*hsv.cols;
+	cout << pixel << endl;
 
 	cout << endl << "0.TRANG 1.DO 2.XANH\t\t";
 	int mau;
-	if (mdo / pixel > 0.6)
+	if (mdo > mxanh && mdo / pixel > 0.4)
 	{
 		mau = 1;
 		cout << mau << endl;
 	}
-	else if (mxanh / pixel > 0.6)
+	else if (mxanh > mdo && mxanh / pixel > 0.4)
 	{
 		mau = 2;
 		cout << mau << endl;
@@ -115,26 +106,30 @@ Mat ProcessImgTest::Color(Mat input)
 	}
 	if (mau == 1)
 	{
-		output = Sharp(ddo);
+		output = InvertImg(ddo);
 	}
 	else if (mau == 2)
 	{
-		output = Sharp(xanh);
+		output = InvertImg(xanh);
 	}
-	else output = hsv;
-	return output;
-}
-Mat LocCanny_GianNo(Mat input)
-{
-	//cvtColor(A, CV_LOAD_IMAGE_GRAYSCALE);
-	Mat Canny1, dilate1, erode1, output;
-	//loc anh
-	blur(input, input, Size(3, 3));
-	GaussianBlur(input, input, cv::Size(0, 0), 3);
-	Canny(input, Canny1, 60, 160, 3);
-	output = Canny1.clone();
-	//// gian no + co nen
-	//dilate(Canny1, dilate1, 18);
-	//erode(dilate1, erode1, 18);
+	else
+	{
+		for (int i = 0;i < input.rows;i++)
+		{
+			for (int j = 0;j < input.cols;j++)
+			{
+				for (int k = 0;k < 3;k++)
+				{
+					if ((int)input.at<Vec3b>(i, j)[k] < 130)
+					{
+						input.at<Vec3b>(i, j)[k] = 30;
+					}
+					else
+						input.at<Vec3b>(i, j)[k] = 255;
+				}
+			}
+		}
+		output = input.clone();
+	}
 	return output;
 }
