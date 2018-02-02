@@ -21,11 +21,10 @@ void main()
 		dir.append(to_string(i));
 		dir.append(".bmp");
 		cout << dir << endl;
-		image = imread(dir, CV_LOAD_IMAGE_GRAYSCALE);
+		image = imread(dir, CV_LOAD_IMAGE_COLOR);
 
 		if (!image.empty())
 		{
-			resize(image, image, Size(800, 600));
 			Mat licensePlate = myHaarCascade.DectectLicensePlate(image);
 			if (licensePlate.cols == 150 && licensePlate.rows == 150)
 			{
