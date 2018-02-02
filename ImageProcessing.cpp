@@ -132,4 +132,4 @@ Mat ProcessImgTest::Color(Mat input)
 		output = input.clone();
 	}
 	return output;
-}
+}//
