@@ -15,16 +15,17 @@ void main()
 
 	myHaarCascade.LoadXML();
 	string dir;
-	for (int i = 0; i < 104; i++)
+	for (int i = 0; i < 20; i++)
 	{
-		dir = "D:/FPT learn/POSITIVE_IMAGE/a";
+		dir = "data/a";
 		dir.append(to_string(i));
 		dir.append(".bmp");
 		cout << dir << endl;
 		image = imread(dir, CV_LOAD_IMAGE_GRAYSCALE);
+
 		if (!image.empty())
 		{
-
+			resize(image, image, Size(800, 600));
 			Mat licensePlate = myHaarCascade.DectectLicensePlate(image);
 			if (licensePlate.cols == 150 && licensePlate.rows == 150)
 			{
@@ -36,6 +37,11 @@ void main()
 				{
 					cout << "Hang " << i + 1 << ": ";
 					myClassify.testing(number.at(i));
+					for (int j = 0; j < number.at(i).size(); j++)
+					{
+						imshow("abc", number[i][j]);
+						waitKey();
+					}
 					cout << endl;
 				}
 				imshow("image", myHaarCascade.DectectLicensePlate(image));

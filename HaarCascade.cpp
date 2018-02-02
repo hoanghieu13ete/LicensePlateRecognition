@@ -18,23 +18,37 @@ Mat HaarCascade::DectectLicensePlate(Mat image)
 	{
 		for (int i = 0; i < rect.size(); i++)
 		{
-			//cut by rectangle
-			cut = image(rect.at(i));
-			resize(cut, cut, Size(150, 150));
+			////cut by rectangle
+			//cut = image(rect.at(i));
+			//resize(cut, cut, Size(150, 150));
 
-			Mat binary;
-			//binary to find countour
-			threshold(cut, binary, 200, 255, CV_THRESH_BINARY);
+			//Mat binary;
+			////binary to find countour
+			//threshold(cut, binary, 200, 255, CV_THRESH_BINARY);
 
-			//waitKey(0);
-			findContours(binary, countours1, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
+			////waitKey(0);
+			//findContours(binary, countours1, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
 
-			//if more than 9 object so it is a license plate.
-			if (countours1.size() > 9)
-			{
-				return cut;
-			}
+			////if more than 9 object so it is a license plate.
+			//for (size_t i = 0; i < countours1.size(); i++)
+			//{
+			//	int object = 0;
+			//	Rect r = boundingRect(countours1[i]);
+
+			//	if (r.width > 10 && r.height > 25)
+			//	{
+			//		object++;
+			//	}
+			//	
+			//	cout << r.width << " " << r.height << endl;
+
+			//	if (object > 5)
+			//		return cut(r);
+			//}
+			rectangle(image, rect.at(i), Scalar(0, 255, 0), 1, 8, 0);
 		}
+		imshow("image", image);
+		waitKey(0);
 	}
 	return image;
 }
