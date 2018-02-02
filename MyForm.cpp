@@ -15,7 +15,7 @@ void main()
 
 	myHaarCascade.LoadXML();
 	string dir;
-	for (int i = 0; i < 20; i++)
+	for (int i = 0; i < 104; i++)
 	{
 		dir = "data/a";
 		dir.append(to_string(i));
