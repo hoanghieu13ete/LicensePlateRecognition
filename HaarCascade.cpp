@@ -35,16 +35,16 @@ Mat HaarCascade::DectectLicensePlate(Mat image, vector<Rect> &region)
 			{
 				Rect r = boundingRect(countours1[i]);
 
-				if (r.width > 10 && r.width < 30 && r.height > 30 && r.height < 60)
+				if (r.width > 7 && r.width < 20 && r.height > 30 && r.height < 50)
 				{
 					rectangle(binary, r, Scalar(0, 255, 0));
+					cout << r.width << " " << r.height << endl;
 					region.push_back(r);
 					object++;
 				}
 			}
-			if (object > 8)
+			if (object >= 8)
 			{
-				cout << object << endl;
 				imshow("binary", binary);
 				waitKey(0);
 				return cut;
