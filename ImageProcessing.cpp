@@ -8,6 +8,8 @@
 #include <conio.h>
 #include "ImageProcessing.h"
 
+
+
 using namespace std;
 using namespace cv;
 //	can bang mau
@@ -36,7 +38,7 @@ Mat Brightness(Mat &input)
 	return tangdosang;
 }
 // ham xu li anh dau vao
-Mat ProcessImgTest::ProcessImg(Mat input)	// cho anh duoc can bang do sang + mau
+Mat ProcessImg::ProImg(Mat &input)	// cho anh duoc can bang do sang + mau
 {
 	Mat kthuoc, xam, cat, tangdosang1, cbsang, output;
 	int mau;
@@ -65,7 +67,7 @@ Mat InvertImg(Mat &input)
 	return output;
 }
 //	xac dinh mau, anh vao la anh ra co nen trang chu den
-Mat ProcessImgTest::Color(Mat input)
+Mat ProcessImg::Color(Mat &input)
 {
 	Mat hsv, xanh, ddo1, ddo2, output;
 	cvtColor(input, hsv, CV_BGR2HSV);
@@ -133,3 +135,14 @@ Mat ProcessImgTest::Color(Mat input)
 	}
 	return output;
 }//
+
+Mat ProcessImg::Dilate(Mat &input)
+{
+	Mat output, element;
+	element = getStructuringElement(MORPH_RECT, Size(2,2), Point(1,1));
+	adaptiveThreshold(input, input, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, 35, 10);
+	GaussianBlur(input, input, Size(9, 9), 0, 0);
+	erode(input, output, element);
+	//imshow("asdgkgjsg", output);
+	return output;
+}
