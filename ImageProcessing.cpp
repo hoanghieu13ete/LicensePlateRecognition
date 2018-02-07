@@ -146,3 +146,60 @@ Mat ProcessImg::Dilate(Mat &input)
 	//imshow("asdgkgjsg", output);
 	return output;
 }
+//Mat ProcessImg::CutImg(Mat &input, int vtri1, int vtri2, int dai, int rong)
+//{	
+//	Mat cut;
+//	Rect rect(vtri1, vtri2, dai, rong);
+//	//rectangle(input, rect, Scalar(0, 255, 0));
+//	cut = input(rect);
+//	return cut;
+//}
+//Mat ProcessImg::FindObject(Mat &input)
+//{
+//	vector<vector<Point>> countours1;
+//	vector<Vec4i> hierarchy;
+//	vector<int> selected;
+//	int a, b, c, d;
+//	findContours(input, countours1, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+//	Mat drawing = Mat::zeros(input.size(), CV_8UC3);
+//	for (int i = 0; i < countours1.size(); i++)
+//	{
+//		Scalar color = Scalar(0, 255, 0);
+//		Rect R = boundingRect(countours1[i]);
+//		// filter contours according to their bounding box
+//		if (R.width > 10 && R.width <50 && R.height > 30 && R.height <80)
+//		{
+//			selected.push_back(i);
+//			drawContours(drawing, countours1, i, color, 2, 8, hierarchy, 0, Point());
+//			a = R.x;b = R.y; c = R.width;d = R.height;
+//			cout << a << "\t" << b << "\t" << c << "\t" << d << endl;
+//		}
+//		for (size_t i = 0; i < selected.size(); i++)
+//		{
+//			Rect rect(a, b, 20, 60);
+//			rectangle(input, rect, Scalar(0, 255, 0), 1);
+//			//rectangle(input, boundingRect(countours1[selected[i]]), Scalar(0, 255, 0), 1);
+//		}
+//	}
+//	//for (size_t i = 0; i < selected.size(); i++)
+//	//{
+//	//	Rect R = boundingRect(countours1[i]);
+//	//	Rect rect(R.x, R.y, 30, 30);
+//	//	rectangle(input, boundingRect(countours1[selected[i]]), Scalar(0, 255, 0), 1);
+//	//	
+//	//}
+//
+//
+//	//for (int i = 0;i <= countours1.size();i++)
+//	//{
+//	//	Rect r = boundingRect(countours1[i]);
+//	////	if (r.width > 10 && r.width < 30 && r.height > 40 && r.height < 60)
+//	////	{
+//	////		cout << r.width << " " << r.height << endl;
+//	////		object++;			
+//	////	}		
+//	//}
+//	cout<<"sdfaff\t";
+//	cout << selected.size() <<endl;
+//	return input;
+//}

@@ -24,10 +24,10 @@ void main()
 		image = imread(dir, CV_LOAD_IMAGE_GRAYSCALE);
 		if (!image.empty())
 		{
-			Mat licensePlate = myHaarCascade.DectectLicensePlate(image);
+			vector<Rect> region;
+			Mat licensePlate = myHaarCascade.DectectLicensePlate(image, region);
 			if (licensePlate.cols == 150 && licensePlate.rows == 150)
 			{
-				vector<Rect> region = myHaarCascade.DetectRegion(licensePlate);
 				vector<vector<Rect>> Position = myHaarCascade.OrderPostition(region);
 				vector<vector<Mat>> number = myHaarCascade.DetectNumber(Position, licensePlate);
 				SVMModel myClassify;
@@ -42,7 +42,7 @@ void main()
 					}
 					cout << endl;
 				}
-				imshow("image", myHaarCascade.DectectLicensePlate(image));
+				imshow("image", licensePlate);
 				//dir = "D:/FPT learn/TEST/a";
 				//dir.append(to_string(i));
 				//dir.append(".jpg");
