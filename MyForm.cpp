@@ -40,11 +40,7 @@ void main()
 						waitKey();
 					}
 				}
-				imshow("image", myHaarCascade.DectectLicensePlate(image));
-				//dir = "D:/FPT learn/TEST/a";
-				//dir.append(to_string(i));
-				//dir.append(".jpg");
-				//imwrite(dir, myHaarCascade.DectectLicensePlate(image));
+
 				imshow("licensePlate", licensePlate);
 				waitKey(0);
 			}
