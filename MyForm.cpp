@@ -12,19 +12,20 @@ void main()
 {
 	Mat image;
 	HaarCascade myHaarCascade;
-
+	ifstream read;
 	myHaarCascade.LoadXML();
 	string dir, line;
-	read.open("D:/FPT learn/Haar Training/testingdata/bg.txt");
+	read.open("testingdata/bg.txt");
 	while (getline(read, line))
 	{
-		dir = "D:/FPT learn/Haar Training/testingdata/";
+		dir = "testingdata/";
 		dir.append(line);
 		cout << dir << endl;
 		image = imread(dir, CV_LOAD_IMAGE_GRAYSCALE);
 		if (!image.empty())
 		{
-			Mat licensePlate = myHaarCascade.DectectLicensePlate(image);
+			vector<Rect> region;
+			Mat licensePlate = myHaarCascade.DectectLicensePlate(image, region);
 			if (licensePlate.cols == 150 && licensePlate.rows == 150)
 			{
 				vector<vector<Rect>> Position = myHaarCascade.OrderPostition(region);
@@ -38,7 +39,6 @@ void main()
 						imshow("abc", number[i][j]);
 						waitKey();
 					}
-					cout << endl;
 				}
 
 				//dir = "D:/FPT learn/TEST/a";
