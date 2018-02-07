@@ -14,12 +14,12 @@ void main()
 	HaarCascade myHaarCascade;
 
 	myHaarCascade.LoadXML();
-	string dir;
-	for (int i = 0; i < 104; i++)
+	string dir, line;
+	read.open("D:/FPT learn/Haar Training/testingdata/bg.txt");
+	while (getline(read, line))
 	{
-		dir = "data/a";
-		dir.append(to_string(i));
-		dir.append(".bmp");
+		dir = "D:/FPT learn/Haar Training/testingdata/";
+		dir.append(line);
 		cout << dir << endl;
 		image = imread(dir, CV_LOAD_IMAGE_GRAYSCALE);
 		if (!image.empty())
@@ -33,7 +33,6 @@ void main()
 				SVMModel myClassify;
 				for (int i = 0; i < number.size(); i++)
 				{
-					cout << "Hang " << i + 1 << ": ";
 					myClassify.testing(number.at(i));
 					for (int j = 0; j < number.at(i).size(); j++)
 					{
@@ -42,11 +41,12 @@ void main()
 					}
 					cout << endl;
 				}
-				imshow("image", licensePlate);
+				imshow("image", myHaarCascade.DectectLicensePlate(image));
 				//dir = "D:/FPT learn/TEST/a";
 				//dir.append(to_string(i));
 				//dir.append(".jpg");
 				//imwrite(dir, myHaarCascade.DectectLicensePlate(image));
+				imshow("licensePlate", licensePlate);
 				waitKey(0);
 			}
 		}
