@@ -28,6 +28,7 @@ void main()
 			Mat licensePlate = myHaarCascade.DectectLicensePlate(image, region);
 			if (licensePlate.cols == 150 && licensePlate.rows == 150)
 			{
+				vector<Rect> region = myHaarCascade.DetectRegion(licensePlate);
 				vector<vector<Rect>> Position = myHaarCascade.OrderPostition(region);
 				vector<vector<Mat>> number = myHaarCascade.DetectNumber(Position, licensePlate);
 
